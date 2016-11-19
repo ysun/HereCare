@@ -12,7 +12,6 @@
     tools:context="cc.xiaokr.herecare.MainActivity">
 
     <LinearLayout
-        android:visibility="invisible"
         android:id="@+id/controller"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -75,16 +74,20 @@
                             android:layout_width="0dip"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center"
+                            style="@style/text_20sp"
                             android:text="偏左"/>
 
-                        <ImageView
+                        <RelativeLayout
                             android:layout_width="0dip"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:src="@drawable/bluetooth"/>
+                            android:gravity="center">
 
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/un_correct"/>
+                        </RelativeLayout>
                     </LinearLayout>
 
 
@@ -105,15 +108,21 @@
                             android:layout_width="0dip"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="偏左"/>
+                            style="@style/text_20sp"
+                            android:textStyle="italic|bold"
+                            android:text="60"/>
 
-                        <ImageView
+                        <RelativeLayout
                             android:layout_width="0dip"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:src="@drawable/bluetooth"/>
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/un_correct"/>
+                        </RelativeLayout>
 
                     </LinearLayout>
 
@@ -135,20 +144,36 @@
                             android:layout_width="0dip"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="偏左"/>
+                            style="@style/text_20sp"
+                            android:text="偏小"/>
 
-                        <ImageView
+                        <RelativeLayout
                             android:layout_width="0dip"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:src="@drawable/bluetooth"/>
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/un_correct"/>
+                        </RelativeLayout>
 
                     </LinearLayout>
 
                 </LinearLayout>
             </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/airflow_9"/>
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="0dip"
@@ -161,6 +186,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="test"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -187,7 +213,8 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="invisible">
 
         <Button
             android:id="@+id/bt_connect"
