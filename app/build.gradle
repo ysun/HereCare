@@ -5,8 +5,8 @@ android {
     buildToolsVersion "24.0.1"
     defaultConfig {
         applicationId "cc.xiaokr.herecare"
-        minSdkVersion 23
-        targetSdkVersion 24
+        minSdkVersion 19
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

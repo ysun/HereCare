@@ -14,6 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -24,7 +27,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     public static final int EVENT_DISCOVERY = 1;
     public static final int EVENT_FOUND = 2;
@@ -45,88 +48,47 @@ public class MainActivity extends BaseActivity {
     private DevicesAdapter mDevicesAdapter;
     private RobotImpl mRobotImpl;
 
+    private ProgressDialog mBtConnectProgressDialog;
+
+    private Button mBtConnect;
     private View mLayoutDeviceFound;
     private ListView mListViewDeviceFound;
     private Button mBtDismissLayoutDeviceFound;
 
-    private ProgressDialog mBtConnectProgressDialog;
-
     private Animation mSearchAnimation;
     private ImageView mIvSearch;
-
-    private RelativeLayout mLayoutDeviceNotFound;
-    private ImageView mIvShowBt, mIvLight, mIvHorn;
-
-    private TextView mTvSetting;
-
-    private ImageButton mIbAuto, mIbManual, mIbCruise, mIbGravity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_main);
 
         mRobotImpl = new RobotImpl(this, mUiHandler);
-//        initView();
+        initView();
 
         if (!mRobotImpl.isSupportingBluetooth()) {
             return;
         }
-
-        if (!mRobotImpl.isBluetoothEnabled()) {
-            Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(intent, REQUEST_ENABLE_BLUETOOTH);
-        } else {
-            startScan();
-        }
     }
 
-//    private void initView() {
-//        mLayoutDeviceFound = findViewById(R.id.layout_device_found);
-//        mListViewDeviceFound = (ListView) findViewById(R.id.listview_device_found);
-//        mDevicesAdapter = new DevicesAdapter(this);
-//        mListViewDeviceFound.setAdapter(mDevicesAdapter);
-//        mListViewDeviceFound.setOnItemClickListener(this);
-//
-//        mBtDismissLayoutDeviceFound = (Button) findViewById(R.id.bt_dismiss_layout_device_found);
-//        mBtDismissLayoutDeviceFound.setOnClickListener(this);
-//
-//        mIvShowBt = (ImageView) findViewById(R.id.iv_show_devices);
-//        mIvShowBt.setOnClickListener(this);
-//
-//        mIvLight = (ImageView) findViewById(R.id.iv_light);
-//        mIvLight.setOnClickListener(this);
-//
-//        mIvHorn = (ImageView) findViewById(R.id.iv_horn);
-//        mIvHorn.setOnClickListener(this);
-//
-//        mSearchAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate);
-//        LinearInterpolator localLinearInterpolator = new LinearInterpolator();
-//        mSearchAnimation.setInterpolator(localLinearInterpolator);
-//        mIvSearch = (ImageView) findViewById(R.id.iv_search);
-//
-//        mLayoutDeviceNotFound = (RelativeLayout) findViewById(R.id.device_found_footer);
-//        mLayoutDeviceNotFound.setOnClickListener(this);
-//
-//        mTvSetting = (TextView) findViewById(R.id.tv_info);
-//        mTvSetting.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        mIbAuto = (ImageButton) findViewById(R.id.ib_auto);
-//        mIbAuto.setOnClickListener(this);
-//        mIbCruise = (ImageButton) findViewById(R.id.ib_cruise);
-//        mIbCruise.setOnClickListener(this);
-//        mIbGravity = (ImageButton) findViewById(R.id.ib_gravity);
-//        mIbGravity.setOnClickListener(this);
-//        mIbManual = (ImageButton) findViewById(R.id.ib_manual);
-//        mIbManual.setOnClickListener(this);
-//    }
+    private void initView() {
+        mLayoutDeviceFound = findViewById(R.id.layout_device_found);
+        mListViewDeviceFound = (ListView) findViewById(R.id.listview_device_found);
+        mDevicesAdapter = new DevicesAdapter(this);
+        mListViewDeviceFound.setAdapter(mDevicesAdapter);
+        mListViewDeviceFound.setOnItemClickListener(this);
+
+        mBtDismissLayoutDeviceFound = (Button) findViewById(R.id.bt_dismiss_layout_device_found);
+        mBtDismissLayoutDeviceFound.setOnClickListener(this);
+
+        mBtConnect = (Button) findViewById(R.id.bt_connect);
+        mBtConnect.setOnClickListener(this);
+
+        mSearchAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate);
+        LinearInterpolator localLinearInterpolator = new LinearInterpolator();
+        mSearchAnimation.setInterpolator(localLinearInterpolator);
+        mIvSearch = (ImageView) findViewById(R.id.iv_search);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -145,13 +107,11 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LogUtils.d("xxxx in onDestroy");
         dismissProgressDialog();
         mRobotImpl.cleanUp();
     }
 
     private boolean mIsSearching = false;
-
     private void startScan() {
         if (!mIsSearching) {
             mIsSearching = true;
@@ -166,9 +126,6 @@ public class MainActivity extends BaseActivity {
             mIvSearch.clearAnimation();
         }
     }
-
-
-    private boolean mIsIngoreLastManual = false;
 
     private Handler mUiHandler = new Handler() {
         @Override
@@ -221,12 +178,12 @@ public class MainActivity extends BaseActivity {
         }
     };
 
-//    @Override
-//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        mRobotImpl.cancelScan();
-//        stopScanAnimation();
-//        mRobotImpl.connect(mDevicesList.get(position).getMac());
-//    }
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        mRobotImpl.cancelScan();
+        stopScanAnimation();
+        mRobotImpl.connect(mDevicesList.get(position).getMac());
+    }
 
     private void dismissProgressDialog() {
         if (mBtConnectProgressDialog != null && mBtConnectProgressDialog.isShowing()) {
@@ -241,6 +198,22 @@ public class MainActivity extends BaseActivity {
         mBtConnectProgressDialog.show();
     }
 
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.bt_connect:
+                mLayoutDeviceFound.setVisibility(View.VISIBLE);
+
+                if (!mRobotImpl.isBluetoothEnabled()) {
+                    Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(intent, REQUEST_ENABLE_BLUETOOTH);
+                } else {
+                    startScan();
+                }
+                break;
+        }
+    }
 
     private class DevicesAdapter extends BaseAdapter {
         private LayoutInflater inflater;

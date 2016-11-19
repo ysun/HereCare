@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KRobot</string>
+    <string name="app_name">Here, Care</string>
     <string name="is_connecting">正在连接</string>
     <string name="connect_success">连接成功</string>
     <string name="connect_fail">连接失败</string>
