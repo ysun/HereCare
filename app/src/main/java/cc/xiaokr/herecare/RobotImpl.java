@@ -19,7 +19,6 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -53,7 +52,7 @@ public class RobotImpl implements RobotInterface {
     /**
      * Ui handler runs in UI thread to post bluetooth state to Activity to update UI.
      */
-    private final Handler mUiHandler;
+    private Handler mUiHandler;
 
     private String mConnectedMac = "";
     private BluetoothDevice mBluetoothDevice;
@@ -63,7 +62,22 @@ public class RobotImpl implements RobotInterface {
 
     private ReceiverThread mReceiverThread;
 
-    public RobotImpl(Context context, Handler handler) {
+    private static RobotImpl mInstance;
+
+    public static RobotImpl getInstance() {
+        return mInstance;
+    }
+
+    public void setUiHandler(Handler handler) {
+        this.mUiHandler = handler;
+    }
+
+    public RobotImpl(Context context) {
+        this(context, null);
+    }
+
+    private RobotImpl(Context context, Handler handler) {
+        mInstance = this;
         this.mContext = context;
         this.mUiHandler = handler;
         LogUtils.d("RobotImpl +");
@@ -80,7 +94,6 @@ public class RobotImpl implements RobotInterface {
         mThread = new HandlerThread("KRobot thread");
         mThread.start();
         mHandler = new RobotHandler(mThread.getLooper());
-
         LogUtils.d("RobotImpl -");
     }
 

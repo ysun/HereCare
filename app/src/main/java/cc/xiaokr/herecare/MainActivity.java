@@ -19,10 +19,8 @@ import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -63,7 +61,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRobotImpl = new RobotImpl(this, mUiHandler);
+        mRobotImpl = RobotImpl.getInstance();
+        mRobotImpl.setUiHandler(mUiHandler);
         initView();
 
         if (!mRobotImpl.isSupportingBluetooth()) {
