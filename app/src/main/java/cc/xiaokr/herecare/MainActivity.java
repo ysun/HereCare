@@ -68,6 +68,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private Button mBtTest;
 
+    private static final int COLOR_RED = 0XFFFF4A39;
+    private static final int COLOR_BLUE = 0xFF21A9D5;
+    private static final int COLOR_GRAY = 0xFF898989;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,9 +121,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private GridData generateData(int value) {
+
+        int color;
+        if (value > 90) {
+            color = COLOR_RED;
+        } else if (value > 70 && value <= 90) {
+            color = COLOR_BLUE;
+        } else {
+            color = COLOR_GRAY;
+        }
         GridData.Entry[] entries = new GridData.Entry[1];
-        int colors = 0xFF7394E7;
-        entries[0] = new GridData.Entry(colors, "", value);
+        entries[0] = new GridData.Entry(color, "", value);
         return new GridData("", entries);
     }
 
