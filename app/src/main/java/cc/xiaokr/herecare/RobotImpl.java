@@ -376,15 +376,6 @@ public class RobotImpl implements RobotInterface {
         private boolean mExiting = false;
         private List<Byte> mRx = new ArrayList<>();
 
-        private int cruiseLeft = 0;
-        private int cruiseRight = 0;
-
-        private int prevAuto = -1;
-
-        private float mPrevF = -0.01f;
-        private static final float FACTOR = 2.0f;
-        private int count = 0;
-
         private ReceiverThread() {
         }
 
@@ -399,7 +390,7 @@ public class RobotImpl implements RobotInterface {
                 while (!mExiting && mInputStream != null) {
                     mRx.clear();
                     // wait to read the whole bytes.
-                    for (; ; ) {
+                    for (;;) {
 
                         int readed = mInputStream.read(buffer);
                         if (readed < 0) {
@@ -410,19 +401,18 @@ public class RobotImpl implements RobotInterface {
 
                         boolean flag = false;
                         for (int i = 0; i < readed; i++) {
-                            LogUtils.d(" i: " + i + " v:" + buffer[i]);
+                            LogUtils.d("bobby i: " + i + " v:" + buffer[i]);
                             mRx.add(buffer[i]);
-                            if (buffer[i] == 10) {
-                                flag = true;
-                                break;
-                            }
+//                            if (buffer[i] == 10) {
+//                                flag = true;
+//                                break;
+//                            }
                         }
 
                         if (flag) {
                             break;
                         }
                     }
-
 
                     int size = mRx.size();
                     if (size < 4) {
@@ -436,8 +426,6 @@ public class RobotImpl implements RobotInterface {
                     }
 
                     if (mRx.get(2) != 0xB) {
-                        cruiseLeft = 0;
-                        cruiseRight = 0;
                     }
                 }
             } catch (IOException e) {

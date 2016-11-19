@@ -30,7 +30,6 @@ import java.util.Random;
 
 import cc.xiaokr.herecare.chart.data.GridData;
 import cc.xiaokr.herecare.chart.view.BarChart;
-import cc.xiaokr.herecare.chart.view.base.GridChart;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
