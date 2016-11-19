@@ -69,6 +69,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private Button mBtTest, mBtGasTest;
     private ImageView mIvAirFlow;
 
+    private TextView mTvForce, mTvFrenquency, mTvPressLocation;
+    private ImageView mIvForce, mIvFrenquency, mIvPressLocation;
+
     private static final int COLOR_RED = 0XFFFF4A39;
     private static final int COLOR_BLUE = 0xFF21A9D5;
     private static final int COLOR_GRAY = 0xFF898989;
@@ -109,6 +112,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         mIvAirFlow = (ImageView) findViewById(R.id.iv_air_flow);
         mIvAirFlow.setImageDrawable(getResources().getDrawable(R.drawable.airflow_0));
+
+
+        mTvForce = (TextView) findViewById(R.id.tv_force);
+        mTvFrenquency = (TextView) findViewById(R.id.tv_frenqency);
+        mTvPressLocation = (TextView) findViewById(R.id.tv_press_location);
+
+        mIvForce = (ImageView) findViewById(R.id.iv_force_result);
+        mIvFrenquency = (ImageView) findViewById(R.id.iv_frenqency_result);
+        mIvPressLocation = (ImageView) findViewById(R.id.iv_press_result);
 
         mBtTest = (Button) findViewById(R.id.bt_test);
         mBtTest.setOnClickListener(this);
