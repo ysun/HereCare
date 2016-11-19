@@ -66,7 +66,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private static final int GRID_DATA_SIZE = 10;
     private List<GridData> mGridData = new ArrayList<>();
 
-    private Button mBtTest;
+    private Button mBtTest, mBtGasTest;
+    private ImageView mIvAirFlow;
 
     private static final int COLOR_RED = 0XFFFF4A39;
     private static final int COLOR_BLUE = 0xFF21A9D5;
@@ -106,8 +107,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mSearchAnimation.setInterpolator(localLinearInterpolator);
         mIvSearch = (ImageView) findViewById(R.id.iv_search);
 
+        mIvAirFlow = (ImageView) findViewById(R.id.iv_air_flow);
+        mIvAirFlow.setImageDrawable(getResources().getDrawable(R.drawable.airflow_0));
+
         mBtTest = (Button) findViewById(R.id.bt_test);
         mBtTest.setOnClickListener(this);
+
+        mBtGasTest = (Button) findViewById(R.id.bt_test_gas);
+        mBtGasTest.setOnClickListener(this);
 
         mBarChart = (BarChart) findViewById(R.id.bar_chart);
         initializeGridData();
@@ -115,7 +122,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void initializeGridData() {
         for (int i = 0; i < GRID_DATA_SIZE; i++) {
-            mGridData.add(generateData(i*5));
+            mGridData.add(generateData(i * 5));
         }
         mBarChart.setDataList(mGridData, false);
     }
@@ -157,6 +164,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private boolean mIsSearching = false;
+
     private void startScan() {
         if (!mIsSearching) {
             mIsSearching = true;
@@ -270,8 +278,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 }
                 mBarChart.setDataList(mGridData, false);
                 break;
+
+            case R.id.bt_test_gas:
+                mIvAirFlow.setImageDrawable(getResources().getDrawable(AIR_FLOW_PIC[mIndex++%11]));
+                break;
         }
     }
+
+    private int mIndex = 1;
+    private static final int[] AIR_FLOW_PIC = new int[] {
+            R.drawable.airflow_0, R.drawable.airflow_1, R.drawable.airflow_2, R.drawable.airflow_3,
+            R.drawable.airflow_4, R.drawable.airflow_5, R.drawable.airflow_6, R.drawable.airflow_7,
+            R.drawable.airflow_8, R.drawable.airflow_9, R.drawable.airflow_11,
+    };
 
     private class DevicesAdapter extends BaseAdapter {
         private LayoutInflater inflater;
@@ -360,7 +379,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mDevicesAdapter.notifyDataSetChanged();
     }
 
-    private long firstTime=0;
+    private long firstTime = 0;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {

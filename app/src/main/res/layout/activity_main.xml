@@ -169,6 +169,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/iv_air_flow"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/airflow_9"/>
@@ -186,6 +187,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="test"/>
+
+                <Button
+                    android:id="@+id/bt_test_gas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="test_gas"/>
 
                 <TextView
                     android:layout_width="match_parent"
