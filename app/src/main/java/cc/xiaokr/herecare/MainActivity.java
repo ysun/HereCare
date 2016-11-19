@@ -25,6 +25,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import cc.xiaokr.herecare.chart.data.GridData;
+import cc.xiaokr.herecare.chart.view.BarChart;
+import cc.xiaokr.herecare.chart.view.base.GridChart;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -56,6 +62,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private Animation mSearchAnimation;
     private ImageView mIvSearch;
+    private BarChart mBarChart;
+
+    private static final int GRID_DATA_SIZE = 10;
+    private List<GridData> mGridData = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +99,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         LinearInterpolator localLinearInterpolator = new LinearInterpolator();
         mSearchAnimation.setInterpolator(localLinearInterpolator);
         mIvSearch = (ImageView) findViewById(R.id.iv_search);
+
+        mBarChart = (BarChart) findViewById(R.id.bar_chart);
+        initializeGridData();
+    }
+
+    private void initializeGridData() {
+        for (int i = 0; i < GRID_DATA_SIZE; i++) {
+            mGridData.add(generateData(i*5));
+        }
+        mBarChart.setDataList(mGridData, true);
+    }
+
+    private GridData generateData(int value) {
+        GridData.Entry[] entries = new GridData.Entry[1];
+        int colors = 0xFF7394E7;
+        entries[0] = new GridData.Entry(colors, "", value);
+        return new GridData("", entries);
     }
 
     @Override
