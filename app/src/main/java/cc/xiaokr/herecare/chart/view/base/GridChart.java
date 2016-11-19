@@ -21,6 +21,7 @@ import android.widget.Scroller;
 import java.util.ArrayList;
 import java.util.List;
 
+import cc.xiaokr.herecare.LogUtils;
 import cc.xiaokr.herecare.R;
 import cc.xiaokr.herecare.chart.config.base.GridConfig;
 import cc.xiaokr.herecare.chart.data.GridData;
@@ -37,9 +38,12 @@ public abstract class GridChart extends View {
 
     private Paint solidLinePaint = new Paint();
     private Paint dashLinePaint = new Paint();
+    private Paint normalLinePaint = new Paint();
+
     protected TextPaint textPaint = new TextPaint();
     protected Paint.FontMetrics fontMetrics;
     private Path linePath = new Path();
+    private Path normalLinePath = new Path();
 
     private ValueAnimator enterAnimator;
     protected float enterFraction = 1;
@@ -181,6 +185,11 @@ public abstract class GridChart extends View {
         solidLinePaint.setColor(config.getGridLineColor());
         solidLinePaint.setStyle(Paint.Style.STROKE);
         solidLinePaint.setStrokeWidth(ChartUtils.dp2px(getContext(), 1));
+
+        normalLinePaint.reset();
+        normalLinePaint.setColor( Color.RED);
+        normalLinePaint.setStyle(Paint.Style.STROKE);
+        normalLinePaint.setStrokeWidth(5);
     }
 
     @Override
@@ -193,6 +202,7 @@ public abstract class GridChart extends View {
         calculateRenderRange();
         calculateRenderTitle();
 
+        drawGridNormalLine(canvas);
         drawGridLine(canvas);
         drawGridText(canvas);
 //        drawDesc(canvas);
@@ -211,6 +221,29 @@ public abstract class GridChart extends View {
     public boolean onTouchEvent(MotionEvent event) {
         return gestureDetector.onTouch(event);
     }
+
+    private void drawGridNormalLine(Canvas canvas) {
+        normalLinePath.reset();
+        normalLinePath.moveTo(horizontalOffset, getChartBottom() - itemHeight * 5);
+        normalLinePath.lineTo(horizontalOffset, getChartBottom());
+        normalLinePath.lineTo(getWidth(), getChartBottom());
+        canvas.drawPath(normalLinePath, dashLinePaint);
+
+        LogUtils.d("bobby horizontalOffset:" + horizontalOffset + " width:" + getWidth() + " itemHeight:" + itemHeight);
+        normalLinePath.reset();
+        for (int i = 1; i <= ROW_COUNT; i++) {
+            if (i != 4) {
+//                normalLinePath.moveTo(horizontalOffset, getChartBottom() - itemHeight * i);
+//                normalLinePath.lineTo(getWidth(), getChartBottom() - itemHeight * i);
+//                canvas.drawPath(normalLinePath, dashLinePaint);
+            } else {
+                normalLinePath.moveTo(horizontalOffset, getChartBottom() - itemHeight * i);
+                normalLinePath.lineTo(getWidth(), getChartBottom() - itemHeight * i);
+                canvas.drawPath(normalLinePath, normalLinePaint);
+            }
+        }
+    }
+
 
     private void drawGridLine(Canvas canvas) {
         linePath.reset();
