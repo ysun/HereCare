@@ -212,6 +212,11 @@ public class RobotImpl implements RobotInterface {
         return true;
     }
 
+    @Override
+    public void setRobotMode(int mode) {
+
+    }
+
     private void sendModeMsg(int mode) {
         mHandler.removeMessages(EVENT_MODE);
         Message msg = new Message();

@@ -1,3 +1,24 @@
 <resources>
-    <string name="app_name">HereCare</string>
+    <string name="app_name">KRobot</string>
+    <string name="is_connecting">正在连接</string>
+    <string name="connect_success">连接成功</string>
+    <string name="connect_fail">连接失败</string>
+
+    <string name="scan_begin">开始扫描</string>
+    <string name="scan_end">扫描结束</string>
+
+    <string name="update_confirm">确定</string>
+    <string name="update_cancel">取消</string>
+
+    <string name="update_title">发现新版本, 立刻前往更新?</string>
+
+    <string name="about">关于</string>
+    <string name="check_update">检查更新</string>
+    <string name="no_update">已经是最新版了</string>
+
+    <string name="welcome">Here, Care!</string>
+    <string name="teaching_material">教学常识</string>
+    <string name="training">实战训练</string>
+    <string name="love_map">爱心地图</string>
+
 </resources>
