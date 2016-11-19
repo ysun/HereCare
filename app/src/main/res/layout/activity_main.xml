@@ -155,6 +155,11 @@
                 android:layout_weight="2"
                 android:orientation="vertical">
 
+                <Button
+                    android:id="@+id/bt_test"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="test"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

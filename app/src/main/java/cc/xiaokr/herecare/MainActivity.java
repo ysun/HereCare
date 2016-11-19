@@ -67,6 +67,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private static final int GRID_DATA_SIZE = 10;
     private List<GridData> mGridData = new ArrayList<>();
 
+    private Button mBtTest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +102,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mSearchAnimation.setInterpolator(localLinearInterpolator);
         mIvSearch = (ImageView) findViewById(R.id.iv_search);
 
+        mBtTest = (Button) findViewById(R.id.bt_test);
+        mBtTest.setOnClickListener(this);
+
         mBarChart = (BarChart) findViewById(R.id.bar_chart);
         initializeGridData();
     }
@@ -108,7 +113,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         for (int i = 0; i < GRID_DATA_SIZE; i++) {
             mGridData.add(generateData(i*5));
         }
-        mBarChart.setDataList(mGridData, true);
+        mBarChart.setDataList(mGridData, false);
     }
 
     private GridData generateData(int value) {
@@ -244,6 +249,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.bt_dismiss_layout_device_found:
                 stopScanAnimation();
                 mLayoutDeviceFound.setVisibility(View.INVISIBLE);
+                break;
+
+            case R.id.bt_test:
+                mGridData.add(generateData(new Random().nextInt(101)));
+                if (mGridData.size() > GRID_DATA_SIZE) {
+                    mGridData.remove(0);
+                }
+                mBarChart.setDataList(mGridData, false);
                 break;
         }
     }

@@ -194,7 +194,7 @@ public abstract class GridChart extends View {
 
         drawGridLine(canvas);
         drawGridText(canvas);
-        drawDesc(canvas);
+//        drawDesc(canvas);
 
         canvas.save();
         canvas.translate(horizontalOffset, 0);
@@ -305,11 +305,13 @@ public abstract class GridChart extends View {
     }
 
     protected float getBottomTextHeight() {
-        return getTextHeight() + getTextMargin();
+//        return getTextHeight() + getTextMargin();
+        return 0;
     }
 
     protected float getDescHeight() {
-        return getTextHeight() + ChartUtils.dp2px(getContext(), 10);
+//        return getTextHeight() + ChartUtils.dp2px(getContext(), 10);
+        return 0;
     }
 
     protected float getChartWidth() {
