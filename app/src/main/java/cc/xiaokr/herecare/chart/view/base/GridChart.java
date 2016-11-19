@@ -154,6 +154,7 @@ public abstract class GridChart extends View {
         scaleValue = 1;
         titleMaxWidth = calculateTitleMaxWidth();
         gridHeight = calculateGridHeight();
+        gridHeight = 20;
         itemHeight = (getChartBottom() - getTextHeight()) / ROW_COUNT;
         horizontalOffset = textPaint.measureText(String.valueOf(gridHeight * 5)) + getTextMargin();
         defaultItemWidth = getChartWidth() / dataList.size();
