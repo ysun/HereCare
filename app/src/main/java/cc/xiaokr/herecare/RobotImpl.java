@@ -62,22 +62,7 @@ public class RobotImpl implements RobotInterface {
 
     private ReceiverThread mReceiverThread;
 
-    private static RobotImpl mInstance;
-
-    public static RobotImpl getInstance() {
-        return mInstance;
-    }
-
-    public void setUiHandler(Handler handler) {
-        this.mUiHandler = handler;
-    }
-
-    public RobotImpl(Context context) {
-        this(context, null);
-    }
-
-    private RobotImpl(Context context, Handler handler) {
-        mInstance = this;
+    public RobotImpl(Context context, Handler handler) {
         this.mContext = context;
         this.mUiHandler = handler;
         LogUtils.d("RobotImpl +");

@@ -7,6 +7,5 @@ public class CareApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        new RobotImpl(this);
     }
 }

@@ -59,10 +59,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_main);
 
-        mRobotImpl = RobotImpl.getInstance();
-        mRobotImpl.setUiHandler(mUiHandler);
+        mRobotImpl = new RobotImpl(this, mUiHandler);
         initView();
 
         if (!mRobotImpl.isSupportingBluetooth()) {
@@ -210,6 +210,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 } else {
                     startScan();
                 }
+                break;
+
+            case R.id.bt_dismiss_layout_device_found:
+                stopScanAnimation();
+                mLayoutDeviceFound.setVisibility(View.INVISIBLE);
                 break;
         }
     }
