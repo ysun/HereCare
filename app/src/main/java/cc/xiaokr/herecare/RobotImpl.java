@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.audiofx.LoudnessEnhancer;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -273,6 +274,13 @@ public class RobotImpl implements RobotInterface {
         mUiHandler.sendMessage(msg);
     }
 
+    private void sendSensorMsg(int event, int data) {
+        Message msg = new Message();
+        msg.what = event;
+        msg.arg1 = data;
+        mUiHandler.sendMessage(msg);
+    }
+
     private long mLastTimeMills = System.currentTimeMillis();
     private static final float MAX_SPEED = (float) 255.0 / 100;
 
@@ -403,10 +411,10 @@ public class RobotImpl implements RobotInterface {
                         for (int i = 0; i < readed; i++) {
                             LogUtils.d("bobby i: " + i + " v:" + buffer[i]);
                             mRx.add(buffer[i]);
-//                            if (buffer[i] == 10) {
-//                                flag = true;
-//                                break;
-//                            }
+                            if (buffer[i] == 0xEE) {
+                                flag = true;
+                                break;
+                            }
                         }
 
                         if (flag) {
@@ -420,13 +428,23 @@ public class RobotImpl implements RobotInterface {
                         continue;
                     }
 
-                    if (mRx.get(0) != -1 || mRx.get(1) != 85 || (mRx.get(2) == 13 && mRx.get(3) == 10)) {
+                    if (mRx.get(0) != -1 || mRx.get(1) != 85) {
                         LogUtils.d("invalid value ...");
                         continue;
                     }
 
-                    if (mRx.get(2) != 0xB) {
+                    int len = mRx.get(2);
+                    if (len < 2) {
+                        LogUtils.d("wrong len");
+                        continue;
                     }
+
+                    if (size <= 2 + len) {
+                        LogUtils.d("TLV wrong format");
+                        continue;
+                    }
+
+                    sendSensorMsg();
                 }
             } catch (IOException e) {
                 LogUtils.e("Failed to receive data, exit");

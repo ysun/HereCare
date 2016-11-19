@@ -76,6 +76,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private static final int COLOR_BLUE = 0xFF21A9D5;
     private static final int COLOR_GRAY = 0xFF898989;
 
+    public static final int SENSOR_EVENT_PRESSURE = 1;
+    public static final int SENSOR_EVENT_AXIS  = 2;
+    public static final int SENSOR_EVENT_AIR_FLOW = 3;
+    public static final int SENSOR_EVENT_PUSH = 4;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,6 +240,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 case EVENT_CLEARCONNECT:
                     LogUtils.d("in EVENT_CLEARCONNECT");
                     dismissProgressDialog();
+                    break;
+
+
+                case SENSOR_EVENT_AIR_FLOW:
+                    break;
+
+                case SENSOR_EVENT_AXIS:
+                    break;
+
+                case SENSOR_EVENT_PRESSURE:
+                    break;
+                
+                case SENSOR_EVENT_PUSH:
                     break;
 
                 default:
