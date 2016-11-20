@@ -276,15 +276,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     int type = msg.arg1;
                     int value = msg.arg2;
 
-                    switch (type) {
-                        case SENSOR_AIR_FLOW:
-                            break;
-                        case SENSOR_AXIS:
-                            break;
-                        case SENSOR_PRESSURE:
-                            break;
-                        case SENSOR_PUSH:
-                            break;
+                    if (value < 0) {
+                        value = (255 - Math.abs(value)) /2 ;
+                    }
+
+                    LogUtils.d("bobby type:" + type + " value:" + value);
+                    if (type >= 1 && type <= 4) {
+                        long currentTime =  System.currentTimeMillis();
+                        if (currentTime > mPrevTime + 500) {
+                            mPrevTime = currentTime;
+                            LogUtils.d("bobby mRightCount:" + mRightCount + " mLeftCount:" + mLeftCount);
+                            addPressueData(mRightPressure > mLeftPressure ? mRightPressure : mLeftPressure);
+                            mLeftCount = 0;
+                            mRightCount = 0;
+                            mLeftPressure = 0;
+                            mRightPressure = 0;
+                        }
+                        
+                        if ( type == 1 || type == 3) {
+                            mLeftCount++;
+                            if (value > mLeftPressure) {
+                                mLeftPressure = value;
+                            }
+                        } else if (type == 2 || type == 4) {
+                            mRightCount++;
+                            if (value > mRightPressure) {
+                                mRightPressure = value;
+                            }
+                        }
                     }
                     break;
 
@@ -295,6 +314,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         }
     };
+
+    private int mLeftCount = 0;
+    private int mRightCount = 1;
+
+    private int mLeftPressure = 0;
+    private int mRightPressure = 0;
+
+    private long mPrevTime = System.currentTimeMillis();
 
     private void addPressueData(int value) {
         mGridData.add(generateData(value, false));

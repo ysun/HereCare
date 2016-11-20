@@ -19,6 +19,8 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 /**
@@ -409,9 +411,10 @@ public class RobotImpl implements RobotInterface {
 
                         boolean flag = false;
                         for (int i = 0; i < readed; i++) {
-                            LogUtils.d("bobby i: " + i + " v:" + buffer[i]);
+//                            LogUtils.d("bobby i: " + i + " v:" + buffer[i]);
                             mRx.add(buffer[i]);
-                            if (buffer[i] == 0xEE) {
+                            if (buffer[i] == -18) {
+                                LogUtils.d("bobby ------------- bread for ee");
                                 flag = true;
                                 break;
                             }
@@ -424,28 +427,29 @@ public class RobotImpl implements RobotInterface {
 
                     int size = mRx.size();
                     if (size < 4) {
-                        LogUtils.d("size < 4 ...");
+                        LogUtils.d("bobby size < 4 ...");
                         continue;
                     }
 
                     if (mRx.get(0) != -1 || mRx.get(1) != 85) {
-                        LogUtils.d("invalid value ...");
+                        LogUtils.d("bobby invalid value ...");
                         continue;
                     }
 
                     int len = mRx.get(2);
                     if (len < 2) {
-                        LogUtils.d("wrong len");
+                        LogUtils.d("bobby wrong len");
                         continue;
                     }
+//                    LogUtils.d("bobby ------------------------- send sensor size:" + size);
 
                     //TLV END
                     if (size < 2 + len + 1 + 1) {
-                        LogUtils.d("TLV wrong format");
+                        LogUtils.d("bobby TLV wrong format");
                         continue;
                     }
 
-                    sendSensorMsg(MainActivity.EVENT_SENSOR, mRx.get(4), mRx.get(5));
+                    sendSensorMsg(MainActivity.EVENT_SENSOR, mRx.get(3), mRx.get(4));
                 }
             } catch (IOException e) {
                 LogUtils.e("Failed to receive data, exit");
