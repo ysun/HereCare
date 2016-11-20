@@ -350,7 +350,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     if (mTotal > 12) {
                         mIvFrenquency.setImageDrawable(getResources().getDrawable(R.drawable.un_correct));
                         mTvFrenquency.setText(mTotal + "");
-                    } else if (mTotal >= 6 && mTotal <= 12) {
+                    } else if (mTotal >= 8 && mTotal <= 12) {
                         mIvFrenquency.setImageDrawable(getResources().getDrawable(R.drawable.correct));
                         mTvFrenquency.setText(mTotal + "");
                     } else {
