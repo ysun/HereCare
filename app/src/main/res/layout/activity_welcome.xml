@@ -24,14 +24,14 @@
 
         <ImageButton
             android:layout_marginTop="20dip"
-            android:id="@+id/bt_training"
+            android:id="@+id/bt_love_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bt_love_map"/>
 
         <ImageButton
             android:layout_marginTop="20dip"
-            android:id="@+id/bt_love_map"
+            android:id="@+id/bt_training"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bt_training"/>

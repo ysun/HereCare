@@ -26,7 +26,7 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_welcome);
         mWelcomeLayout = (RelativeLayout) findViewById(R.id.layout_welcome);
-        mWelcomeLayout.setBackground(readBgDrawable(this, R.drawable.cpr_first_page));
+        mWelcomeLayout.setBackground(Utils.readBgDrawable(this, R.drawable.cpr_first_page));
 //        mWelcomeLayout.setBackgroundDrawable(readBgDrawable(this, R.drawable.cpr_first_page));
 
         mBtMap = (ImageButton) findViewById(R.id.bt_love_map);
@@ -39,39 +39,27 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         mBtTraining.setOnClickListener(this);
     }
 
-    private BitmapDrawable readBgDrawable(Context context, int resId) {
-        BitmapFactory.Options opt = new BitmapFactory.Options();
-        opt.inPreferredConfig = Bitmap.Config.RGB_565;
-        opt.inPurgeable = true;
-        opt.inInputShareable = true;
-        //获取资源图片
-        InputStream is = context.getResources().openRawResource(resId);
-        Bitmap bitmap = BitmapFactory.decodeStream(is, null, opt);
-        try {
-            is.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return new BitmapDrawable(context.getResources(), bitmap);
-    }
 
     @Override
     public void onClick(View v) {
-
+        Intent intent;
         switch (v.getId()) {
             case R.id.bt_love_map:
-                showToast("Not ready");
+                intent = new Intent(this, LoveMapActivity.class);
+                startActivity(intent);
+                doJoinActAnim();
                 break;
 
             case R.id.bt_training:
-                Intent intent = new Intent(this, MainActivity.class);
+                intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 doJoinActAnim();
                 break;
 
             case R.id.bt_teaching_material:
-                showToast("Not Ready");
+                intent = new Intent(this, KnowledgeActivity.class);
+                startActivity(intent);
+                doJoinActAnim();
                 break;
 
             default:
