@@ -86,6 +86,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public static final int SENSOR_PUSH = 4;
 
     public static final int EVENT_TIMER = 1000;
+    private static final int EVENT_FRENQUENCE = 1001;
+
     private Chronometer mTimer;
 
 
@@ -260,7 +262,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         mLayoutController.setVisibility(View.VISIBLE);
                         mTimer.setBase(SystemClock.elapsedRealtime());//计时器清零
                         mTimer.start();
-                        mUiHandler.sendEmptyMessageDelayed(EVENT_TIMER, 10 * 1000);
+                        mUiHandler.sendEmptyMessageDelayed(EVENT_TIMER, 240 * 1000);
+                        mUiHandler.sendEmptyMessageDelayed(EVENT_FRENQUENCE, 10 * 1000);
                     } else if (msg.arg1 == CONNECT_FAIL) {
                         showToast(getResString(R.string.connect_fail));
                     }
@@ -279,6 +282,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     if (value < 0) {
                         value = (255 - Math.abs(value)) /2 ;
                     }
+
+                    value = value > 100 ? 100 : value;
 
                     LogUtils.d("bobby type:" + type + " value:" + value);
                     if (type >= 1 && type <= 4) {
@@ -301,6 +306,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                             mRightCount = 0;
                             mLeftPressure = 0;
                             mRightPressure = 0;
+                            mTotal++;
                         }
                         
                         if ( type == 1 || type == 3) {
@@ -317,6 +323,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     }
                     break;
 
+                case EVENT_FRENQUENCE:
+
+                    if (mTotal > 12) {
+                        mIvFrenquency.setImageDrawable(getResources().getDrawable(R.drawable.un_correct));
+                        mTvFrenquency.setText(mTotal + "");
+                    } else if (mTotal >= 6 && mTotal <= 12) {
+                        mIvFrenquency.setImageDrawable(getResources().getDrawable(R.drawable.correct));
+                        mTvFrenquency.setText(mTotal + "");
+                    } else {
+                        mIvFrenquency.setImageDrawable(getResources().getDrawable(R.drawable.un_correct));
+                        mTvFrenquency.setText(mTotal + "");
+                    }
+                    mTotal = 0;
+                    mUiHandler.sendEmptyMessageDelayed(EVENT_FRENQUENCE, 10 * 1000);
+                    break;
+
                 case EVENT_TIMER:
                     mTimer.stop();
                 default:
@@ -325,9 +347,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
     };
 
+    private int mTotal = 0;
+
     private int mLeftCount = 0;
     private int mRightCount = 1;
-
     private int mLeftPressure = 0;
     private int mRightPressure = 0;
 
