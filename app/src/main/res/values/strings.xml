@@ -25,4 +25,7 @@
     <string name="smaller">偏小</string>
     <string name="normal">正常</string>
 
+    <string name="left">偏左</string>
+    <string name="right">偏右</string>
+
 </resources>

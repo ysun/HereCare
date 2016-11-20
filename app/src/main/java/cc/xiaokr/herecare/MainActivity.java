@@ -287,6 +287,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                             mPrevTime = currentTime;
                             LogUtils.d("bobby mRightCount:" + mRightCount + " mLeftCount:" + mLeftCount);
                             addPressueData(mRightPressure > mLeftPressure ? mRightPressure : mLeftPressure);
+                            if (mRightCount == 0 && mLeftCount > 0) {
+                                mIvPressLocation.setImageDrawable(getResources().getDrawable(R.drawable.un_correct));
+                                mTvPressLocation.setText(getResString(R.string.left));
+                            } else if (mRightCount > 0 && mLeftCount == 0) {
+                                mIvPressLocation.setImageDrawable(getResources().getDrawable(R.drawable.un_correct));
+                                mTvPressLocation.setText(getResString(R.string.right));
+                            } else {
+                                mIvPressLocation.setImageDrawable(getResources().getDrawable(R.drawable.correct));
+                                mTvPressLocation.setText(getResString(R.string.normal));
+                            }
                             mLeftCount = 0;
                             mRightCount = 0;
                             mLeftPressure = 0;
