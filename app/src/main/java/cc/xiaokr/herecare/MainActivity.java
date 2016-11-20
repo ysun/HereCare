@@ -76,10 +76,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private static final int COLOR_BLUE = 0xFF21A9D5;
     private static final int COLOR_GRAY = 0xFF898989;
 
-    public static final int SENSOR_EVENT_PRESSURE = 1;
-    public static final int SENSOR_EVENT_AXIS  = 2;
-    public static final int SENSOR_EVENT_AIR_FLOW = 3;
-    public static final int SENSOR_EVENT_PUSH = 4;
+
+    public static final int EVENT_SENSOR = 100;
+    public static final int SENSOR_PRESSURE = 1;
+    public static final int SENSOR_AXIS  = 2;
+    public static final int SENSOR_AIR_FLOW = 3;
+    public static final int SENSOR_PUSH = 4;
 
 
     @Override
@@ -243,16 +245,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     break;
 
 
-                case SENSOR_EVENT_AIR_FLOW:
-                    break;
+                case EVENT_SENSOR:
+                    int type = msg.arg1;
+                    int value = msg.arg2;
 
-                case SENSOR_EVENT_AXIS:
-                    break;
-
-                case SENSOR_EVENT_PRESSURE:
-                    break;
-                
-                case SENSOR_EVENT_PUSH:
+                    switch (type) {
+                        case SENSOR_AIR_FLOW:
+                            break;
+                        case SENSOR_AXIS:
+                            break;
+                        case SENSOR_PRESSURE:
+                            break;
+                        case SENSOR_PUSH:
+                            break;
+                    }
                     break;
 
                 default:
@@ -260,6 +266,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         }
     };
+
+    private void addPressueData(int value) {
+        mGridData.add(generateData(value));
+        if (mGridData.size() > GRID_DATA_SIZE) {
+            mGridData.remove(0);
+        }
+        mBarChart.setDataList(mGridData, false);
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -302,11 +316,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
 
             case R.id.bt_test:
-                mGridData.add(generateData(new Random().nextInt(101)));
-                if (mGridData.size() > GRID_DATA_SIZE) {
-                    mGridData.remove(0);
-                }
-                mBarChart.setDataList(mGridData, false);
+                addPressueData(new Random().nextInt(101));
                 break;
 
             case R.id.bt_test_gas:

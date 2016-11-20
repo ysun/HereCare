@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.audiofx.LoudnessEnhancer;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -274,10 +273,11 @@ public class RobotImpl implements RobotInterface {
         mUiHandler.sendMessage(msg);
     }
 
-    private void sendSensorMsg(int event, int data) {
+    private void sendSensorMsg(int event, int type, int data) {
         Message msg = new Message();
         msg.what = event;
-        msg.arg1 = data;
+        msg.arg1 = type;
+        msg.arg2 = data;
         mUiHandler.sendMessage(msg);
     }
 
@@ -439,12 +439,13 @@ public class RobotImpl implements RobotInterface {
                         continue;
                     }
 
-                    if (size <= 2 + len) {
+                    //TLV END
+                    if (size < 2 + len + 1 + 1) {
                         LogUtils.d("TLV wrong format");
                         continue;
                     }
 
-                    sendSensorMsg();
+                    sendSensorMsg(MainActivity.EVENT_SENSOR, mRx.get(4), mRx.get(5));
                 }
             } catch (IOException e) {
                 LogUtils.e("Failed to receive data, exit");
