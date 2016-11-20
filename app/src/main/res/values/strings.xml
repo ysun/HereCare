@@ -21,4 +21,8 @@
     <string name="training">实战训练</string>
     <string name="love_map">爱心地图</string>
 
+    <string name="bigger">偏大</string>
+    <string name="smaller">偏小</string>
+    <string name="normal">正常</string>
+
 </resources>

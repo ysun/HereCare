@@ -77,7 +77,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             style="@style/text_20sp"
-                            android:text="偏左"/>
+                            android:text=""/>
 
                         <RelativeLayout
                             android:layout_width="0dip"
@@ -88,8 +88,7 @@
                             <ImageView
                                 android:id="@+id/iv_press_result"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/un_correct"/>
+                                android:layout_height="wrap_content"/>
                         </RelativeLayout>
                     </LinearLayout>
 
@@ -114,7 +113,7 @@
                             android:layout_weight="1"
                             style="@style/text_20sp"
                             android:textStyle="italic|bold"
-                            android:text="60"/>
+                            android:text=""/>
 
                         <RelativeLayout
                             android:layout_width="0dip"
@@ -125,8 +124,7 @@
                             <ImageView
                                 android:id="@+id/iv_frenqency_result"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/un_correct"/>
+                                android:layout_height="wrap_content"/>
                         </RelativeLayout>
 
                     </LinearLayout>
@@ -151,7 +149,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             style="@style/text_20sp"
-                            android:text="偏小"/>
+                            android:text=""/>
 
                         <RelativeLayout
                             android:layout_width="0dip"
@@ -162,8 +160,7 @@
                             <ImageView
                                 android:id="@+id/iv_force_result"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/un_correct"/>
+                                android:layout_height="wrap_content"/>
                         </RelativeLayout>
 
                     </LinearLayout>

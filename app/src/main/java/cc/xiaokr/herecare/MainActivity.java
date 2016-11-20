@@ -143,20 +143,33 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void initializeGridData() {
         for (int i = 0; i < GRID_DATA_SIZE; i++) {
-            mGridData.add(generateData(i * 5));
+            mGridData.add(generateData(0, true));
         }
         mBarChart.setDataList(mGridData, false);
     }
 
-    private GridData generateData(int value) {
+    private GridData generateData(int value, boolean ignore) {
 
         int color;
         if (value > 90) {
             color = COLOR_RED;
+
+            if (!ignore) {
+                mIvForce.setImageDrawable(getResources().getDrawable(R.drawable.un_correct));
+                mTvForce.setText(getResString(R.string.bigger));
+            }
         } else if (value > 70 && value <= 90) {
             color = COLOR_BLUE;
+            if (!ignore) {
+                mTvForce.setText(getResString(R.string.normal));
+                mIvForce.setImageDrawable(getResources().getDrawable(R.drawable.correct));
+            }
         } else {
             color = COLOR_GRAY;
+            if (!ignore) {
+                mTvForce.setText(getResString(R.string.smaller));
+                mIvForce.setImageDrawable(getResources().getDrawable(R.drawable.un_correct));
+            }
         }
         GridData.Entry[] entries = new GridData.Entry[1];
         entries[0] = new GridData.Entry(color, "", value);
@@ -271,7 +284,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     };
 
     private void addPressueData(int value) {
-        mGridData.add(generateData(value));
+        mGridData.add(generateData(value, false));
         if (mGridData.size() > GRID_DATA_SIZE) {
             mGridData.remove(0);
         }
