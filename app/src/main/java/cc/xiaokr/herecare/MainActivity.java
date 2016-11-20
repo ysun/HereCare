@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -83,6 +85,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public static final int SENSOR_AIR_FLOW = 3;
     public static final int SENSOR_PUSH = 4;
 
+    public static final int EVENT_TIMER = 1000;
+    private Chronometer mTimer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +106,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void initView() {
         mLayoutController = findViewById(R.id.controller);
+
+        mTimer = (Chronometer) findViewById(R.id.chronometer_timer);
+
 
         mLayoutDeviceFound = findViewById(R.id.layout_device_found);
         mListViewDeviceFound = (ListView) findViewById(R.id.listview_device_found);
@@ -250,6 +258,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         showToast(getResString(R.string.connect_success));
                         mLayoutDeviceFound.setVisibility(View.INVISIBLE);
                         mLayoutController.setVisibility(View.VISIBLE);
+                        mTimer.setBase(SystemClock.elapsedRealtime());//计时器清零
+                        mTimer.start();
+                        mUiHandler.sendEmptyMessageDelayed(EVENT_TIMER, 10 * 1000);
                     } else if (msg.arg1 == CONNECT_FAIL) {
                         showToast(getResString(R.string.connect_fail));
                     }
@@ -277,6 +288,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     }
                     break;
 
+                case EVENT_TIMER:
+                    mTimer.stop();
                 default:
                     break;
             }
