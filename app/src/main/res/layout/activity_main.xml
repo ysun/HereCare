@@ -194,21 +194,25 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:visibility="gone"
                     android:id="@+id/bt_test"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="test"/>
 
                 <Button
+                    android:visibility="gone"
                     android:id="@+id/bt_test_gas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="test_gas"/>
 
-                <TextView
+                <ImageView
+                    android:id="@+id/head_pic"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="area 3"/>
+                    android:src="@drawable/dummy_00"/>
+
             </LinearLayout>
 
         </LinearLayout>
