@@ -91,6 +91,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private Chronometer mTimer;
 
+    private ImageView mIvHeadPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +113,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         mTimer = (Chronometer) findViewById(R.id.chronometer_timer);
 
+        mIvHeadPic = (ImageView) findViewById(R.id.head_pic);
 
         mLayoutDeviceFound = findViewById(R.id.layout_device_found);
         mListViewDeviceFound = (ListView) findViewById(R.id.listview_device_found);
