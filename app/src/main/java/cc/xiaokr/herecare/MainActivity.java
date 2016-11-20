@@ -87,6 +87,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     public static final int EVENT_TIMER = 1000;
     private static final int EVENT_FRENQUENCE = 1001;
+    private static final int EVENT_CLEAR_AIR_FLOW = 1002;
 
     private Chronometer mTimer;
 
@@ -287,6 +288,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
                     LogUtils.d("bobby type:" + type + " value:" + value);
                     if (type >= 1 && type <= 4) {
+
+                        
+                        if ( type == 1 || type == 3) {
+                            mLeftCount++;
+                            if (value > mLeftPressure) {
+                                mLeftPressure = value;
+                            }
+                        } else if (type == 2 || type == 4) {
+                            mRightCount++;
+                            if (value > mRightPressure) {
+                                mRightPressure = value;
+                            }
+                        }
                         long currentTime =  System.currentTimeMillis();
                         if (currentTime > mPrevTime + 500) {
                             mPrevTime = currentTime;
@@ -308,19 +322,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                             mRightPressure = 0;
                             mTotal++;
                         }
-                        
-                        if ( type == 1 || type == 3) {
-                            mLeftCount++;
-                            if (value > mLeftPressure) {
-                                mLeftPressure = value;
-                            }
-                        } else if (type == 2 || type == 4) {
-                            mRightCount++;
-                            if (value > mRightPressure) {
-                                mRightPressure = value;
-                            }
+                    } else if (type == 5) {
+                        LogUtils.d("bobby in ---------------------- gas ----");
+                        mGasCount++;
+                        long currentTimeGas =  System.currentTimeMillis();
+                        if (currentTimeGas > mPrevGasTime + 1000) {
+                            mGasCount = 0;
+                            mPrevGasTime = currentTimeGas;
+//                            mIvAirFlow.setImageDrawable(getResources().getDrawable(AIR_FLOW_PIC[0]));
+                            mUiHandler.sendEmptyMessageDelayed(EVENT_CLEAR_AIR_FLOW, 1000);
                         }
+
+                        int count = mGasCount > 10 ? 10 : mGasCount;
+                        mUiHandler.removeMessages(EVENT_CLEAR_AIR_FLOW);
+                        mIvAirFlow.setImageDrawable(getResources().getDrawable(AIR_FLOW_PIC[count]));
+                        mUiHandler.sendEmptyMessageDelayed(EVENT_CLEAR_AIR_FLOW, 1000);
+
                     }
+                    break;
+
+                case EVENT_CLEAR_AIR_FLOW:
+                    mIvAirFlow.setImageDrawable(getResources().getDrawable(AIR_FLOW_PIC[0]));
                     break;
 
                 case EVENT_FRENQUENCE:
@@ -349,12 +371,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private int mTotal = 0;
 
+    private int mGasCount = 0;
+
     private int mLeftCount = 0;
     private int mRightCount = 1;
     private int mLeftPressure = 0;
     private int mRightPressure = 0;
 
     private long mPrevTime = System.currentTimeMillis();
+    private long mPrevGasTime = System.currentTimeMillis();
 
     private void addPressueData(int value) {
         mGridData.add(generateData(value, false));

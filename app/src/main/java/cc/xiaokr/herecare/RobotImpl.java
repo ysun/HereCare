@@ -441,8 +441,8 @@ public class RobotImpl implements RobotInterface {
                         LogUtils.d("bobby wrong len");
                         continue;
                     }
-//                    LogUtils.d("bobby ------------------------- send sensor size:" + size);
 
+//                    LogUtils.d("bobby ------------------------- send sensor size:" + size );
                     //TLV END
                     if (size < 2 + len + 1 + 1) {
                         LogUtils.d("bobby TLV wrong format");
