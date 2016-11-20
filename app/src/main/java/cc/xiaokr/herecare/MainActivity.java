@@ -544,6 +544,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if (mLayoutDeviceFound.getVisibility() == View.VISIBLE) {
                 mLayoutDeviceFound.setVisibility(View.INVISIBLE);
+                mBtConnect.setVisibility(View.VISIBLE);
                 return true;
             }
 
