@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private ProgressDialog mBtConnectProgressDialog;
 
     private Button mBtConnect;
-    private View mLayoutDeviceFound;
+    private View mLayoutDeviceFound, mLayoutController;
     private ListView mListViewDeviceFound;
     private Button mBtDismissLayoutDeviceFound;
 
@@ -100,6 +100,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void initView() {
+        mLayoutController = findViewById(R.id.controller);
+
         mLayoutDeviceFound = findViewById(R.id.layout_device_found);
         mListViewDeviceFound = (ListView) findViewById(R.id.listview_device_found);
         mDevicesAdapter = new DevicesAdapter(this);
@@ -234,6 +236,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     if (msg.arg1 == CONNECT_SUCCESS) {
                         showToast(getResString(R.string.connect_success));
                         mLayoutDeviceFound.setVisibility(View.INVISIBLE);
+                        mLayoutController.setVisibility(View.VISIBLE);
                     } else if (msg.arg1 == CONNECT_FAIL) {
                         showToast(getResString(R.string.connect_fail));
                     }
@@ -308,11 +311,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 } else {
                     startScan();
                 }
+                mBtConnect.setVisibility(View.INVISIBLE);
                 break;
 
             case R.id.bt_dismiss_layout_device_found:
                 stopScanAnimation();
                 mLayoutDeviceFound.setVisibility(View.INVISIBLE);
+                mBtConnect.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.bt_test:
